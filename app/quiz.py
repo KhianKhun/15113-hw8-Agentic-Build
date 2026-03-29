@@ -1,19 +1,23 @@
 from .auth import authenticate_user
 from .data_manage import DataManager, QuestionFileBrokenError, QuestionFileMissingError
 from .exit_signal import ExitRequested, read_input_or_exit
+from .illegal_iput import print_illegal_answers
 from .quiz_logic import run_quiz_for_user
 
 
 def main() -> None:
     print("Welcome to use test")
-    manager = DataManager()
     try:
+        manager = DataManager()
         questions = manager.load_questions()
     except QuestionFileMissingError:
         print("Error, question.json not opend/found")
         return
     except QuestionFileBrokenError:
         print("Error, JSON file is broken")
+        return
+    except MemoryError:
+        print("Error, out of memory. Program exits.")
         return
 
     try:
@@ -32,8 +36,10 @@ def main() -> None:
                     if action == "exit":
                         print("Bye.")
                         return
-                    print("illegal answers")
+                    print_illegal_answers()
                 if action == "restart":
                     continue
     except ExitRequested:
         print("Bye.")
+    except MemoryError:
+        print("Error, out of memory. Program exits.")

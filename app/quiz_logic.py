@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from .data_manage import DataManager
 from .exit_signal import read_input_or_exit
+from .illegal_iput import prompt_validated
 
 
 def run_quiz_for_user(
@@ -58,38 +59,45 @@ def run_quiz_for_user(
 
 def _prompt_quiz_settings(questions: List[Dict[str, Any]]) -> Tuple[int, Optional[str], Optional[int]]:
     categories = sorted({q["category"] for q in questions})
+    total_questions = len(questions)
+    print(f"Question bank count: {total_questions}")
 
-    while True:
-        raw_count = read_input_or_exit("How many questions do you want? ")
-        if raw_count.isdigit() and int(raw_count) > 0:
-            question_count = int(raw_count)
-            break
-        print("illegal answers")
+    def _count_validator(raw_count: str) -> Tuple[bool, int]:
+        if raw_count.isdigit():
+            count = int(raw_count)
+            if 1 <= count <= total_questions:
+                return True, count
+        return False, 0
+
+    _, question_count = prompt_validated(
+        "How many questions do you want? ", _count_validator, read_input_or_exit
+    )
 
     category_map = {item.lower(): item for item in categories}
     print("\nCategories:")
     print(", ".join(categories))
     print("Use N/A for default category mode.")
-    while True:
-        raw_category = read_input_or_exit("Category: ")
+    def _category_validator(raw_category: str) -> Tuple[bool, Optional[str]]:
         if not raw_category or raw_category.lower() in {"n/a", "na"}:
-            category = None
-            break
+            return True, None
         chosen = category_map.get(raw_category.lower())
         if chosen:
-            category = chosen
-            break
-        print("illegal answers")
+            return True, chosen
+        return False, None
 
-    while True:
-        raw_difficulty = read_input_or_exit("Difficulty (1/2/3, N/A for default): ").lower()
-        if raw_difficulty in {"", "n/a", "na"}:
-            difficulty = None
-            break
-        if raw_difficulty in {"1", "2", "3"}:
-            difficulty = int(raw_difficulty)
-            break
-        print("illegal answers")
+    _, category = prompt_validated("Category: ", _category_validator, read_input_or_exit)
+
+    def _difficulty_validator(raw_difficulty: str) -> Tuple[bool, Optional[int]]:
+        lowered = raw_difficulty.lower()
+        if lowered in {"", "n/a", "na"}:
+            return True, None
+        if lowered in {"1", "2", "3"}:
+            return True, int(lowered)
+        return False, None
+
+    _, difficulty = prompt_validated(
+        "Difficulty (1/2/3, N/A for default): ", _difficulty_validator, read_input_or_exit
+    )
 
     return question_count, category, difficulty
 
@@ -168,15 +176,14 @@ def _ask_question(question: Dict[str, Any]) -> Dict[str, Any]:
         for index, option in enumerate(question["options"], start=1):
             print(f"{index}. {option}")
 
-    illegal_count = 0
-    while illegal_count < 3:
-        raw_answer = read_input_or_exit("Your answer: ")
+    def _answer_validator(raw_answer: str) -> Tuple[bool, str]:
         parsed_answer, illegal = _parse_answer(question, raw_answer)
-        if illegal:
-            illegal_count += 1
-            print("illegal answers")
-            continue
+        return (not illegal), parsed_answer
 
+    is_valid, parsed_answer = prompt_validated(
+        "Your answer: ", _answer_validator, read_input_or_exit, max_illegal=3
+    )
+    if is_valid:
         correct = _is_correct(question, parsed_answer)
         _print_result(question, correct)
         return {"correct": correct}
@@ -254,15 +261,19 @@ def _format_correct_answer(question: Dict[str, Any]) -> str:
 
 def _prompt_feedback() -> Optional[int]:
     print("Feedback: 0 is dislike, 1 is like. Press Enter to skip.")
-    illegal_count = 0
-    while illegal_count < 3:
-        raw_feedback = read_input_or_exit("Your feedback: ")
+    def _feedback_validator(raw_feedback: str) -> Tuple[bool, Optional[int]]:
         if raw_feedback == "":
-            return None
+            return True, None
         if raw_feedback in {"0", "1"}:
-            return int(raw_feedback)
-        illegal_count += 1
-        print("illegal answers")
+            return True, int(raw_feedback)
+        return False, None
+
+    is_valid, feedback = prompt_validated(
+        "Your feedback: ", _feedback_validator, read_input_or_exit, max_illegal=3
+    )
+    if is_valid:
+        return feedback
+
     print("Skip feedback for this question.")
     return None
 

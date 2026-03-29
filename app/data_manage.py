@@ -231,7 +231,9 @@ class DataManager:
 
     def _prepare_data_files(self) -> None:
         self.data_dir.mkdir(parents=True, exist_ok=True)
-        missing_file = not (self.users_path.exists() and self.scores_path.exists() and self.feedback_path.exists())
+        missing_file = not (
+            self.users_path.exists() and self.scores_path.exists() and self.feedback_path.exists()
+        )
         broken_file = False
 
         if not missing_file:

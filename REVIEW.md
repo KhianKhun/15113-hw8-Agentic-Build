@@ -16,3 +16,15 @@
 14. [WARN] Security hardening gap: No login rate limiting or lockout; unlimited credential attempts allow brute-force attempts on local account database. See `app/auth.py:30-43`.
 15. [WARN] Code quality: Illegal-input retry logic is duplicated across multiple functions, increasing maintenance overhead and risk of inconsistent behavior. See `app/auth.py:46-86`, `app/quiz_logic.py:62-93`, `app/quiz_logic.py:171-186`, `app/quiz_logic.py:255-267`.
 16. [WARN] Robustness gap in auxiliary module: `data/question.py` reads and parses `question.json` without exception handling; direct execution can crash on missing/broken file. See `data/question.py:9-11`.
+
+## Second Detection 
+
+1. [PASS] The fix for question-count input works: current code shows question-bank size and rejects `<= 0` or values larger than total bank size. See `app/quiz_logic.py:62-74`.
+2. [PASS] Memory error handling is now added at program entry and main loop level; out-of-memory is reported and the app exits. See `app/quiz.py:10-21`, `app/quiz.py:42-45`.
+3. [PASS] Shared illegal-input handling module is added and integrated into quiz/auth flows, reducing duplicated print logic. See `app/illegal_iput.py:1-29`, `app/auth.py:5`, `app/quiz_logic.py:7`.
+4. [PASS] The robustness issue in `data/question.py` is fixed by adding file existence and parse/read exception handling. See `data/question.py:10-30`.
+5. [WARN] Duplicate-question risk still exists in filtered mode: count validation uses total bank size, but after category/difficulty filtering the pool can be smaller, triggering with-replacement picks and repeated questions. See `app/quiz_logic.py:62-69`, `app/quiz_logic.py:124`, `app/quiz_logic.py:139-142`.
+6. [FAIL] Account recovery can still reset the wrong account when multiple users share the same birthday + last name; first match is reset without stronger identity verification. See `app/data_manage.py:126-148`.
+7. [FAIL] Professional question correctness issue still exists: in `data/question.json`, the statement "`s()` means smooth" has answer `"False"` but should be true in this context. See `data/question.json:53-56`.
+8. [WARN] New storage files are plain JSON text (`*.hash`) and remain human-readable as file content; this conflicts with the non-human-readable storage expectation for score/preference data in the spec features. See `app/data_manage.py:337-339`, `data/scores.hash:1`, `data/feedback.hash:1`.
+9. [WARN] Login flow still has no attempt throttling or lockout, so brute-force attempts remain possible on local credentials. See `app/auth.py:9-28`, `app/auth.py:31-41`.

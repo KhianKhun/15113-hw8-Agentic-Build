@@ -2,6 +2,7 @@ from typing import Dict, Optional
 
 from .data_manage import DataManager
 from .exit_signal import read_input_or_exit
+from .illegal_iput import print_illegal_answers
 
 
 def authenticate_user(manager: DataManager) -> Optional[Dict[str, str]]:
@@ -24,14 +25,14 @@ def authenticate_user(manager: DataManager) -> Optional[Dict[str, str]]:
         elif choice == "0":
             return None
         else:
-            print("illegal answers")
+            print_illegal_answers()
 
 
 def _login_flow(manager: DataManager) -> Optional[Dict[str, str]]:
     username = read_input_or_exit("User name: ")
     password = read_input_or_exit("Password: ")
     if not username or not password:
-        print("illegal answers")
+        print_illegal_answers()
         return None
 
     user = manager.login_user(username, password)
@@ -46,7 +47,7 @@ def _login_flow(manager: DataManager) -> Optional[Dict[str, str]]:
 def _register_flow(manager: DataManager) -> None:
     username = read_input_or_exit("New user name: ")
     if not username:
-        print("illegal answers")
+        print_illegal_answers()
         return
 
     if manager.is_username_taken(username):
@@ -56,13 +57,13 @@ def _register_flow(manager: DataManager) -> None:
     password = read_input_or_exit("New password: ")
     confirm_password = read_input_or_exit("Re-input password: ")
     if not password or password != confirm_password:
-        print("illegal answers")
+        print_illegal_answers()
         return
 
     birthday = read_input_or_exit("Birthday (privacy question): ")
     last_name = read_input_or_exit("Last name (privacy question): ")
     if not birthday or not last_name:
-        print("illegal answers")
+        print_illegal_answers()
         return
 
     success, message = manager.register_user(username, password, birthday, last_name)
@@ -75,14 +76,14 @@ def _forget_flow(manager: DataManager) -> None:
     birthday = read_input_or_exit("Input your birthday: ")
     last_name = read_input_or_exit("Input your last name: ")
     if not birthday or not last_name:
-        print("illegal answers")
+        print_illegal_answers()
         return
 
     new_username = read_input_or_exit("New user name: ")
     new_password = read_input_or_exit("New password: ")
     confirm_password = read_input_or_exit("Re-input password: ")
     if not new_username or not new_password or new_password != confirm_password:
-        print("illegal answers")
+        print_illegal_answers()
         return
 
     success, message = manager.recover_account(birthday, last_name, new_username, new_password)
