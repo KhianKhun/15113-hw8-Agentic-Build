@@ -1,5 +1,6 @@
 from .auth import authenticate_user
 from .data_manage import DataManager, QuestionFileBrokenError, QuestionFileMissingError
+from .exit_signal import ExitRequested, read_input_or_exit
 from .quiz_logic import run_quiz_for_user
 
 
@@ -15,21 +16,24 @@ def main() -> None:
         print("Error, JSON file is broken")
         return
 
-    while True:
-        user = authenticate_user(manager)
-        if user is None:
-            print("Bye.")
-            return
-
+    try:
         while True:
-            run_quiz_for_user(manager, questions, user)
+            user = authenticate_user(manager)
+            if user is None:
+                print("Bye.")
+                return
+
             while True:
-                action = input('Type "restart" to restart or "exit" to exit: ').strip().lower()
+                run_quiz_for_user(manager, questions, user)
+                while True:
+                    action = read_input_or_exit('Type "restart" to restart or "exit" to exit: ').lower()
+                    if action == "restart":
+                        break
+                    if action == "exit":
+                        print("Bye.")
+                        return
+                    print("illegal answers")
                 if action == "restart":
-                    break
-                if action == "exit":
-                    print("Bye.")
-                    return
-                print("illegal answers")
-            if action == "restart":
-                continue
+                    continue
+    except ExitRequested:
+        print("Bye.")

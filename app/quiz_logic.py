@@ -3,6 +3,7 @@ import re
 from typing import Any, Dict, List, Optional, Tuple
 
 from .data_manage import DataManager
+from .exit_signal import read_input_or_exit
 
 
 def run_quiz_for_user(
@@ -59,7 +60,7 @@ def _prompt_quiz_settings(questions: List[Dict[str, Any]]) -> Tuple[int, Optiona
     categories = sorted({q["category"] for q in questions})
 
     while True:
-        raw_count = input("How many questions do you want? ").strip()
+        raw_count = read_input_or_exit("How many questions do you want? ")
         if raw_count.isdigit() and int(raw_count) > 0:
             question_count = int(raw_count)
             break
@@ -70,7 +71,7 @@ def _prompt_quiz_settings(questions: List[Dict[str, Any]]) -> Tuple[int, Optiona
     print(", ".join(categories))
     print("Use N/A for default category mode.")
     while True:
-        raw_category = input("Category: ").strip()
+        raw_category = read_input_or_exit("Category: ")
         if not raw_category or raw_category.lower() in {"n/a", "na"}:
             category = None
             break
@@ -81,7 +82,7 @@ def _prompt_quiz_settings(questions: List[Dict[str, Any]]) -> Tuple[int, Optiona
         print("illegal answers")
 
     while True:
-        raw_difficulty = input("Difficulty (1/2/3, N/A for default): ").strip().lower()
+        raw_difficulty = read_input_or_exit("Difficulty (1/2/3, N/A for default): ").lower()
         if raw_difficulty in {"", "n/a", "na"}:
             difficulty = None
             break
@@ -169,7 +170,7 @@ def _ask_question(question: Dict[str, Any]) -> Dict[str, Any]:
 
     illegal_count = 0
     while illegal_count < 3:
-        raw_answer = input("Your answer: ").strip()
+        raw_answer = read_input_or_exit("Your answer: ")
         parsed_answer, illegal = _parse_answer(question, raw_answer)
         if illegal:
             illegal_count += 1
@@ -255,7 +256,7 @@ def _prompt_feedback() -> Optional[int]:
     print("Feedback: 0 is dislike, 1 is like. Press Enter to skip.")
     illegal_count = 0
     while illegal_count < 3:
-        raw_feedback = input("Your feedback: ").strip()
+        raw_feedback = read_input_or_exit("Your feedback: ")
         if raw_feedback == "":
             return None
         if raw_feedback in {"0", "1"}:

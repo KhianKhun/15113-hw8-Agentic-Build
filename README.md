@@ -1,6 +1,6 @@
 # 15113-HW8-AGENTIC-BUILD
 
-Command-line quiz application for CMU 36-401 / 36-402 related topics (regression and modern data analysis).
+Command-line quiz application for CMU 36-401 / 36-402 related topics (regression and modern data analysis), with global `exit` support at every input stage.
 
 ## Features
 
@@ -10,6 +10,7 @@ Command-line quiz application for CMU 36-401 / 36-402 related topics (regression
 - Supports category and difficulty selection (`N/A` means default mode).
 - Weighted question sampling uses user history (correctness + like/dislike feedback).
 - Stores score history: total question count, correct count, correct rate, per-question performance, and total score.
+- At any prompt, user can type `exit` to terminate safely.
 - Difficulty-based scoring:
 - Easy (1): correct `+1`, wrong `-1`.
 - Medium (2): correct `+1`, wrong `0`.

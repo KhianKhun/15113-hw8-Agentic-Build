@@ -1,6 +1,7 @@
 from typing import Dict, Optional
 
 from .data_manage import DataManager
+from .exit_signal import read_input_or_exit
 
 
 def authenticate_user(manager: DataManager) -> Optional[Dict[str, str]]:
@@ -11,7 +12,7 @@ def authenticate_user(manager: DataManager) -> Optional[Dict[str, str]]:
         print("3. Forget user name/password")
         print("0. exit")
 
-        choice = input("Select an option: ").strip()
+        choice = read_input_or_exit("Select an option: ")
         if choice == "1":
             user = _login_flow(manager)
             if user is not None:
@@ -27,8 +28,8 @@ def authenticate_user(manager: DataManager) -> Optional[Dict[str, str]]:
 
 
 def _login_flow(manager: DataManager) -> Optional[Dict[str, str]]:
-    username = input("User name: ").strip()
-    password = input("Password: ").strip()
+    username = read_input_or_exit("User name: ")
+    password = read_input_or_exit("Password: ")
     if not username or not password:
         print("illegal answers")
         return None
@@ -43,7 +44,7 @@ def _login_flow(manager: DataManager) -> Optional[Dict[str, str]]:
 
 
 def _register_flow(manager: DataManager) -> None:
-    username = input("New user name: ").strip()
+    username = read_input_or_exit("New user name: ")
     if not username:
         print("illegal answers")
         return
@@ -52,14 +53,14 @@ def _register_flow(manager: DataManager) -> None:
         print("User name already exists. Please use other names.")
         return
 
-    password = input("New password: ").strip()
-    confirm_password = input("Re-input password: ").strip()
+    password = read_input_or_exit("New password: ")
+    confirm_password = read_input_or_exit("Re-input password: ")
     if not password or password != confirm_password:
         print("illegal answers")
         return
 
-    birthday = input("Birthday (privacy question): ").strip()
-    last_name = input("Last name (privacy question): ").strip()
+    birthday = read_input_or_exit("Birthday (privacy question): ")
+    last_name = read_input_or_exit("Last name (privacy question): ")
     if not birthday or not last_name:
         print("illegal answers")
         return
@@ -71,15 +72,15 @@ def _register_flow(manager: DataManager) -> None:
 
 
 def _forget_flow(manager: DataManager) -> None:
-    birthday = input("Input your birthday: ").strip()
-    last_name = input("Input your last name: ").strip()
+    birthday = read_input_or_exit("Input your birthday: ")
+    last_name = read_input_or_exit("Input your last name: ")
     if not birthday or not last_name:
         print("illegal answers")
         return
 
-    new_username = input("New user name: ").strip()
-    new_password = input("New password: ").strip()
-    confirm_password = input("Re-input password: ").strip()
+    new_username = read_input_or_exit("New user name: ")
+    new_password = read_input_or_exit("New password: ")
+    confirm_password = read_input_or_exit("Re-input password: ")
     if not new_username or not new_password or new_password != confirm_password:
         print("illegal answers")
         return

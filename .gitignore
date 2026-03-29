@@ -21,6 +21,6 @@ env/
 Thumbs.db
 
 # Local runtime data (generated/updated by app)
-data/users.dat
-data/scores.dat
-data/feedback.dat
+# data/users.dat
+# data/scores.dat
+# data/feedback.dat
