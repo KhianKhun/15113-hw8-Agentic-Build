@@ -1,0 +1,229 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which regression is parametric regression?",
+      "type": "multiple_choice",
+      "options": [
+        "Kernel Regression",
+        "KNN Regression",
+        "Linear Regression",
+        "Spline Regression"
+      ],
+      "answer": "Linear Regression",
+      "category": "mixed",
+      "difficulty": 1,
+      "like": [0, 1]
+    },
+    {
+      "id": 2,
+      "question": "The MSE convergence speed of kernel regression is O(__) in 1 dimension.",
+      "type": "multiple_choice",
+      "options": [
+        "n^(-4/5)",
+        "n^(-1)",
+        "h^2 + n^p",
+        "h^(4/5)"
+      ],
+      "answer": "n^(-4/5)",
+      "category": "kernel regression",
+      "difficulty": 3,
+      "like": [0, 1]
+    },
+    {
+      "id": 3,
+      "question": "The bandwidth of kernel smoother decides whether the regression is straight or fluctuating.",
+      "type": "true_false",
+      "answer": "True",
+      "category": "kernel regression",
+      "difficulty": 1,
+      "like": [0, 1]
+    },
+    {
+      "id": 4,
+      "question": "Kernel smoother is linear smoother.",
+      "type": "true_false",
+      "answer": "True",
+      "category": "kernel regression",
+      "difficulty": 1,
+      "like": [0, 1]
+    },
+    {
+      "id": 5,
+      "question": "In package 'mgcv' and 'gam', the function 's()' means smooth.",
+      "type": "true_false",
+      "answer": "False",
+      "category": "additive regression",
+      "difficulty": 3,
+      "like": [0, 1]
+    },
+    {
+      "id": 6,
+      "question": "The following pseudo code uses ___ ___ method.\\nse_matrix <- replicate(100, {\\n    idx <- sample(1:nrow(dataset), replace = TRUE)\\n    new_dataset <- dataset[idx, ]\\n    fit <- regression(y ~ x, new_dataset)\\n    coefficient(fit)\\n})\\nrequired_se <- sd(se_matrix[, 1])",
+      "type": "short_answer",
+      "answer": [
+        "case",
+        "bootstrap"
+      ],
+      "category": "bootstrap",
+      "difficulty": 2,
+      "like": [0, 1]
+    },
+    {
+      "id": 7,
+      "question": "In additive model, y = alpha + sum f(x_i), E[alpha] = ___?",
+      "type": "short_answer",
+      "answer": "0",
+      "category": "additive model",
+      "difficulty": 1,
+      "like": [0, 1]
+    },
+    {
+      "id": 8,
+      "question": "Which link function is most commonly used in logistic regression?",
+      "type": "multiple_choice",
+      "options": [
+        "Identity",
+        "Logit",
+        "Probit",
+        "Inverse"
+      ],
+      "answer": "Logit",
+      "category": "logistic regression",
+      "difficulty": 1,
+      "like": [0, 1]
+    },
+    {
+      "id": 9,
+      "question": "A generalized linear model assumes the response distribution belongs to the exponential family.",
+      "type": "true_false",
+      "answer": "True",
+      "category": "glm",
+      "difficulty": 2,
+      "like": [0, 1]
+    },
+    {
+      "id": 10,
+      "question": "In KNN regression, increasing k usually leads to:",
+      "type": "multiple_choice",
+      "options": [
+        "Lower bias and higher variance",
+        "Higher bias and lower variance",
+        "Lower bias and lower variance",
+        "No change in bias or variance"
+      ],
+      "answer": "Higher bias and lower variance",
+      "category": "knn regression",
+      "difficulty": 2,
+      "like": [0, 1]
+    },
+    {
+      "id": 11,
+      "question": "A natural cubic spline is constrained to be linear beyond the boundary knots.",
+      "type": "true_false",
+      "answer": "True",
+      "category": "spline regression",
+      "difficulty": 2,
+      "like": [0, 1]
+    },
+    {
+      "id": 12,
+      "question": "R code: glm(y ~ x1 + x2, family = binomial(), data = df) fits a logistic regression model.",
+      "type": "true_false",
+      "answer": "True",
+      "category": "r code",
+      "difficulty": 1,
+      "like": [0, 1]
+    },
+    {
+      "id": 13,
+      "question": "In mgcv, y ~ s(x1) + s(x2) describes which type of model?",
+      "type": "multiple_choice",
+      "options": [
+        "Generalized additive model",
+        "KNN regression model",
+        "Ordinary least squares with no smooth term",
+        "Kernel density estimator"
+      ],
+      "answer": "Generalized additive model",
+      "category": "gam",
+      "difficulty": 2,
+      "like": [0, 1]
+    },
+    {
+      "id": 14,
+      "question": "Kernel regression has a fixed finite-dimensional parameter vector that does not grow with sample size.",
+      "type": "true_false",
+      "answer": "False",
+      "category": "kernel regression",
+      "difficulty": 3,
+      "like": [0, 1]
+    },
+    {
+      "id": 15,
+      "question": "Bootstrap sampling resamples observations with replacement from the original dataset.",
+      "type": "true_false",
+      "answer": "True",
+      "category": "bootstrap",
+      "difficulty": 1,
+      "like": [0, 1]
+    },
+    {
+      "id": 16,
+      "question": "Under classical assumptions, OLS is BLUE where BLUE means:",
+      "type": "multiple_choice",
+      "options": [
+        "Best Linear Unbiased Estimator",
+        "Biased Linear Unbiased Estimator",
+        "Best Logistic Unbiased Estimator",
+        "Bayesian Linear Unbiased Estimator"
+      ],
+      "answer": "Best Linear Unbiased Estimator",
+      "category": "linear regression",
+      "difficulty": 2,
+      "like": [0, 1]
+    },
+    {
+      "id": 17,
+      "question": "In additive regression, each smooth component is often constrained to have mean zero for identifiability.",
+      "type": "true_false",
+      "answer": "True",
+      "category": "additive regression",
+      "difficulty": 2,
+      "like": [0, 1]
+    },
+    {
+      "id": 18,
+      "question": "In logistic regression, what does predict(fit, newdata, type = 'response') return?",
+      "type": "short_answer",
+      "answer": "probability",
+      "category": "r code",
+      "difficulty": 1,
+      "like": [0, 1]
+    },
+    {
+      "id": 19,
+      "question": "Which statement about AIC is usually correct when comparing candidate models on the same dataset?",
+      "type": "multiple_choice",
+      "options": [
+        "Lower AIC is generally preferred",
+        "Higher AIC is always better",
+        "AIC does not depend on likelihood",
+        "AIC can only compare linear regression models"
+      ],
+      "answer": "Lower AIC is generally preferred",
+      "category": "mixed",
+      "difficulty": 2,
+      "like": [0, 1]
+    },
+    {
+      "id": 20,
+      "question": "Using a smaller bandwidth in kernel regression usually makes the fitted curve more wiggly.",
+      "type": "true_false",
+      "answer": "True",
+      "category": "kernel regression",
+      "difficulty": 2,
+      "like": [0, 1]
+    }
+  ]
+}
